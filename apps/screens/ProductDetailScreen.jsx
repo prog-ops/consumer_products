@@ -1,47 +1,41 @@
-import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, Button } from "react-native";
+import React from "react";
+import { View, Text, Image, StyleSheet, Button, ScrollView } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import CartFloatingView from "../components/CartFloatingView";
 import { insertProduct } from "../service/DatabaseService";
 import { useCartContext } from "../context/CartContext";
 
 const ProductDetailScreen = () => {
-  const route = useRoute()
-  const { product } = route.params
-  const { updateProductCount } = useCartContext();
+  const route = useRoute();
+  const { product } = route.params;
+  const { refreshCart } = useCartContext();
+
+  const handleAddToCart = () => {
+    insertProduct(product, () => {
+      refreshCart();
+    });
+  };
 
   return (
     <View style={styles.container}>
-      <View style={styles.largeImageContainer}>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
         <Text style={styles.title}>{product.title}</Text>
         <Image source={{ uri: product.image }} style={styles.image} />
-        <Button title='Insert' onPress={() => {
-          insertProduct(product);
-          updateProductCount()
-        }} />
-      </View>
+        <Button title="Add to cart" onPress={handleAddToCart} />
 
-      <View style={styles.row}>
-        {/* Column A */}
-        <View style={styles.columnA}>
-          <View style={styles.columnA1}>
-            <Text>Rp. {product.price}</Text>
+        <View style={styles.row}>
+          <View style={styles.columnA}>
+            <Text style={styles.meta}>${product.price}</Text>
+            <Text style={styles.meta}>Rating: {product.rating?.rate ?? "-"}</Text>
+            <Text style={styles.meta}>Reviews: {product.rating?.count ?? "-"}</Text>
           </View>
-          <View style={styles.columnA2}>
-            <Text>{product.rating.rate}</Text>
-          </View>
-          <View style={styles.columnA3}>
-            <Text>{product.rating.count}</Text>
+          <View style={styles.columnB}>
+            <Text>{product.description}</Text>
           </View>
         </View>
+      </ScrollView>
 
-        {/* Column B */}
-        <View style={styles.columnB}>
-          <Text>{product.description}</Text>
-        </View>
-      </View>
-
-      <CartFloatingView/>
+      <CartFloatingView />
     </View>
   );
 };
@@ -49,48 +43,39 @@ const ProductDetailScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    padding: 10,
+    backgroundColor: "#fff",
   },
-  largeImageContainer: {
-    padding: 20,
-  },
-  row: {
-    flexDirection: 'row', // Arrange children in a row
-    justifyContent: 'space-between', // Space between columns
-    padding: 10,
+  scrollContent: {
+    padding: 16,
+    paddingBottom: 100,
   },
   title: {
     fontSize: 18,
     fontWeight: "bold",
-
+    marginBottom: 12,
   },
   image: {
-    width: '100%',
-    height: '80%',
+    width: "100%",
+    height: 260,
     marginBottom: 12,
-    resizeMode: 'contain',
+    resizeMode: "contain",
     borderRadius: 10,
   },
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 16,
+  },
   columnA: {
-    flexDirection: 'column', // Arrange children in a column
+    marginRight: 12,
   },
-  columnA1: {
-    width: 'auto', // Width will adjust based on content
-    marginBottom: 10,
-  },
-  columnA2: {
-    width: 'auto', // Width will adjust based on content
-    marginBottom: 10,
-  },
-  columnA3: {
-    width: 'auto', // Width will adjust based on content
+  meta: {
+    marginBottom: 8,
+    fontWeight: "600",
   },
   columnB: {
-    flex: 1, // Takes up remaining space
-    marginLeft: 10, // Add some space between columns
+    flex: 1,
   },
 });
-
 
 export default ProductDetailScreen;
