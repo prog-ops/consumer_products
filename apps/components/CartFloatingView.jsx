@@ -1,65 +1,69 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import React from "react";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import { useCartContext } from "../context/CartContext";
 import { useNavigation } from "@react-navigation/native";
 
 const CartFloatingView = () => {
   const navigation = useNavigation();
-  // const [productCount, setProductCount] = useState(0);
-  const { productCount } = useCartContext();
-
-  /*useEffect(() => {
-    updateProductCount();
-  }, []);
-
-  const updateProductCount = () => {
-    ProductDatabase.transaction((tx) => {
-      tx.executeSql('SELECT COUNT(*) as count FROM products', [], (_, results) => {
-        const count = results.rows.item(0).count;
-        setProductCount(count);
-      });
-    });
-  };*/
+  const { productCount, refreshCart } = useCartContext();
+  const badgeLabel = productCount > 99 ? "99+" : String(productCount);
 
   return (
     <TouchableOpacity
       style={styles.floatingView}
-      onPress={() => navigation.navigate('Cart', productCount)}
+      onPress={() => {
+        refreshCart();
+        navigation.navigate("Cart");
+      }}
+      accessibilityRole="button"
+      accessibilityLabel={`Cart, ${productCount} items`}
     >
-      <View style={styles.floatingContent}>
-        {/*<Image
-          source={require('path/to/your/cart-icon.png')}
-          style={styles.cartIcon}
-        />*/}
-        <Text style={styles.cartCount}>{productCount} product(s) in cart</Text>
-      </View>
+      <Ionicons name="cart" size={28} color="#fff" />
+      {productCount > 0 ? (
+        <View style={styles.badge}>
+          <Text style={styles.badgeText}>{badgeLabel}</Text>
+        </View>
+      ) : null}
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   floatingView: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 20,
     right: 20,
-    backgroundColor: '#3498db',
-    borderRadius: 25,
-    padding: 10,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: "#3498db",
+    alignItems: "center",
+    justifyContent: "center",
     elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.5,
   },
-  floatingContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  cartIcon: {
-    width: 20,
+  badge: {
+    position: "absolute",
+    top: -2,
+    right: -2,
+    minWidth: 20,
     height: 20,
-    marginRight: 5,
+    borderRadius: 10,
+    backgroundColor: "#e53935",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 4,
+    borderWidth: 2,
+    borderColor: "#fff",
   },
-  cartCount: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 16,
+  badgeText: {
+    color: "#fff",
+    fontSize: 11,
+    fontWeight: "700",
   },
 });
 
