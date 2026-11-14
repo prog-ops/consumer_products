@@ -1,0 +1,227 @@
+# Covers dependencies, caches, build outputs, IDE, OS, and secrets.
+
+# =========================
+# Dependencies
+# =========================
+node_modules/
+**/node_modules/
+jspm_packages/
+bower_components/
+.pnp/
+.pnp.js
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+.pnpm-store/
+
+# =========================
+# Package manager locks (optional — uncomment if you do not commit locks)
+# =========================
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# =========================
+# Metro / Bundler / JS caches
+# =========================
+.metro-health-check*
+.metro/
+metro-cache/
+*.metro-cache
+.cache/
+.parcel-cache/
+.eslintcache
+.stylelintcache
+*.tsbuildinfo
+*.jsbundle
+*.bundle
+.expo/
+.expo-shared/
+web-build/
+dist/
+lib/
+tmp/
+temp/
+.temp/
+.turbo/
+.nx/cache/
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# =========================
+# React Native / Buck / Haste
+# =========================
+# Fastlane
+**/fastlane/report.xml
+**/fastlane/Preview.html
+**/fastlane/screenshots
+**/fastlane/test_output
+**/fastlane/.env*
+
+.buckd/
+buck-out/
+\.buckd/
+\.buckconfig.local
+*.hprof
+.cxx/
+
+# =========================
+# Android build
+# =========================
+android/app/build/
+android/build/
+android/.gradle/
+android/local.properties
+android/captures/
+android/app/*.apk
+android/app/*.aab
+android/app/*.ap_
+android/*.keystore
+!android/app/debug.keystore
+*.apk
+*.aab
+*.ap_
+*.dex
+*.class
+bin/
+gen/
+out/
+.gradle/
+local.properties
+*.jks
+*.keystore
+!debug.keystore
+
+# =========================
+# iOS / Xcode / CocoaPods build
+# =========================
+ios/Pods/
+ios/build/
+ios/DerivedData/
+ios/*.xcworkspace/xcuserdata/
+ios/*.xcodeproj/xcuserdata/
+ios/*.xcodeproj/project.xcworkspace/xcuserdata/
+**/xcuserdata/
+*.xcuserstate
+*.xcscmblueprint
+*.xccheckout
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.pbxuser
+!default.pbxuser
+!default.mode1v3
+!default.mode2v3
+!default.perspectivev3
+Pods/
+Carthage/Build/
+Carthage/Checkouts/
+*.xcframework
+
+# =========================
+# Ruby / CocoaPods / Gem
+# =========================
+vendor/bundle/
+.bundle/
+Gemfile.lock
+
+# =========================
+# Testing / Coverage
+# =========================
+coverage/
+*.lcov
+.nyc_output/
+junit.xml
+test-results/
+reports/
+
+# =========================
+# Logs
+# =========================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+pnpm-debug.log*
+*.pid
+*.seed
+*.pid.lock
+
+# =========================
+# Environment / secrets
+# =========================
+.env
+.env.*
+!.env.example
+*.pem
+*.p8
+*.p12
+*.mobileprovision
+google-services.json
+GoogleService-Info.plist
+*.keystore
+!debug.keystore
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# =========================
+# IDE / editors
+# =========================
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+.project
+.classpath
+.settings/
+*.code-workspace
+
+# =========================
+# Misc
+# =========================
+*.bak
+*.tmp
+*.temp
+*.orig
+*.rej
+.history/
+.fleet/
+*.tgz
+.serverless/
+.terraform/
+*.tfstate*
+.vercel/
+.netlify/
