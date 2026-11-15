@@ -1,14 +1,25 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { View, Text, Image, StyleSheet, Button, ScrollView } from "react-native";
-import { useRoute } from "@react-navigation/native";
+import { useFocusEffect, useRoute } from "@react-navigation/native";
 import CartFloatingView from "../components/CartFloatingView";
 import { insertProduct } from "../service/DatabaseService";
 import { useCartContext } from "../context/CartContext";
+import { setLastProductRoute } from "../service/LastProductRoute";
 
 const ProductDetailScreen = () => {
   const route = useRoute();
   const { product } = route.params;
   const { refreshCart } = useCartContext();
+
+  // Mine: track last product detail so Success can return here
+  useFocusEffect(
+    useCallback(() => {
+      setLastProductRoute({
+        name: "ProductDetail",
+        params: { product },
+      });
+    }, [product]),
+  );
 
   const handleAddToCart = () => {
     insertProduct(product, () => {

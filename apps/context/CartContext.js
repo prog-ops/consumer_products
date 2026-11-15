@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import { ProductDatabase } from "../service/Database";
+import { clearCart as clearCartInDb } from "../service/DatabaseService";
 
 const CartContext = createContext();
 
@@ -69,6 +70,13 @@ const CartProvider = ({ children }) => {
     return cartItems.reduce((total, item) => total + Number(item.price || 0), 0);
   };
 
+  // Mine: empty cart after purchase
+  const clearCart = useCallback(async () => {
+    await clearCartInDb();
+    setCartItems([]);
+    setProductCount(0);
+  }, []);
+
   const value = {
     cartItems,
     productCount,
@@ -76,6 +84,7 @@ const CartProvider = ({ children }) => {
     updateProductCount,
     refreshCart,
     getTotalPrice,
+    clearCart,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

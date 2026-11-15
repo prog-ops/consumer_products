@@ -1,5 +1,5 @@
 {
-  "name": "consumer-products",
+  "name": "consumer_products",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -8,7 +8,8 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "launch:android": "powershell -ExecutionPolicy Bypass -File ./scripts/launch-android.ps1"
+    "launch:android": "powershell -ExecutionPolicy Bypass -File ./scripts/launch-android.ps1",
+    "launch:ios": "bash ./scripts/launch-ios.sh"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^3.1.1",

@@ -79,7 +79,19 @@ function ShoppingApp() {
                 component={CheckoutScreen}
                 options={{ title: "Cart" }}
               />
-              <Stack.Screen name="Success" component={SuccessScreen} />
+              {/* Mine: no nav buttons — Success auto-returns to last product */}
+              <Stack.Screen
+                name="Success"
+                component={SuccessScreen}
+                options={{
+                  title: "Success",
+                  headerShown: false,
+                  gestureEnabled: false,
+                  headerLeft: () => null,
+                  headerBackVisible: false,
+                }}
+              />
+
             </Stack.Navigator>
           </NavigationContainer>
         </CartProvider>

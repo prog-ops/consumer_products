@@ -115,6 +115,22 @@ export const getProducts = (callback) => {
   });
 };
 
+// Mine: clear cart after successful checkout
+export const clearCart = () =>
+  new Promise((resolve, reject) => {
+    ProductDatabase.transaction((tx) => {
+      tx.executeSql(
+        'DELETE FROM products',
+        [],
+        () => resolve(),
+        (_, error) => {
+          reject(error);
+          return false;
+        },
+      );
+    });
+  });
+
 // Group cart rows by product title (SQLite id is unique per insert).
 export const groupByCount = (cartItems = []) => {
   return cartItems.reduce((acc, item) => {

@@ -1,21 +1,38 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { FlashList } from "@shopify/flash-list";
 import { groupByCount } from "../service/DatabaseService";
 import { useCartContext } from "../context/CartContext";
 
 export default function CheckoutScreen() {
   const navigation = useNavigation();
-  const { cartItems, productCount, getTotalPrice, refreshCart } = useCartContext();
+  const { cartItems, productCount, getTotalPrice, refreshCart, clearCart } =
+    useCartContext();
   const groupedCartItems = groupByCount(cartItems);
   const totalPrice = getTotalPrice();
+  const [checkingOut, setCheckingOut] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
       refreshCart();
     }, [refreshCart]),
   );
+
+  // Mine: clear cart then show Success (auto-returns to last product)
+  const handleCheckout = async () => {
+    if (groupedCartItems.length === 0 || checkingOut) {
+      return;
+    }
+    setCheckingOut(true);
+    try {
+      await clearCart();
+      navigation.navigate("Success");
+    } catch (error) {
+      console.error("Checkout failed", error);
+      setCheckingOut(false);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -44,12 +61,17 @@ export default function CheckoutScreen() {
       )}
 
       <TouchableOpacity
-        style={styles.checkoutButton}
-        onPress={() => navigation.navigate("Success")}
-        disabled={groupedCartItems.length === 0}
+        style={[
+          styles.checkoutButton,
+          (groupedCartItems.length === 0 || checkingOut) && styles.checkoutButtonDisabled,
+        ]}
+        onPress={handleCheckout}
+        disabled={groupedCartItems.length === 0 || checkingOut}
       >
         <Text style={styles.checkoutText}>
-          Checkout  Total: ${totalPrice.toFixed(2)}
+          {checkingOut
+            ? "Processing…"
+            : `Checkout  Total: $${totalPrice.toFixed(2)}`}
         </Text>
       </TouchableOpacity>
     </View>
@@ -107,6 +129,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingVertical: 14,
     alignItems: "center",
+  },
+  checkoutButtonDisabled: {
+    opacity: 0.6,
   },
   checkoutText: {
     color: "#fff",

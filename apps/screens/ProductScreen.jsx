@@ -1,15 +1,24 @@
 import { ActivityIndicator, Button, StyleSheet, Text, View } from "react-native";
 import { useCallback, useEffect, useState } from "react";
 import { FlashList } from "@shopify/flash-list";
+import { useFocusEffect } from "@react-navigation/native";
 import ProductItem from "../components/ProductItem";
 import CartFloatingView from "../components/CartFloatingView";
 import { FALLBACK_PRODUCTS, fetchProducts } from "../service/ProductApi";
+import { setLastProductRoute } from "../service/LastProductRoute";
 
 export default function ProductScreen() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [usingFallback, setUsingFallback] = useState(false);
+
+  // Mine: track last product list so Success can return here
+  useFocusEffect(
+    useCallback(() => {
+      setLastProductRoute({ name: "Product" });
+    }, []),
+  );
 
   const loadProducts = useCallback(async () => {
     setLoading(true);
