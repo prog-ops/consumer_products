@@ -1,5 +1,7 @@
 # Consumer Products
 
+❗️Any credential here is fake. Username and password is dummy and not real.
+
 A React Native shopping application for browsing products, managing a local cart, and completing checkout. Built with React Native CLI, React Navigation, SQLite, and secure credential storage.
 
 | | |
