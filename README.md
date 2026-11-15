@@ -96,20 +96,28 @@ Complete the official [React Native Environment Setup](https://reactnative.dev/d
 
 ---
 
-## Emulator launch (Pixel_9)
+## Emulator / Simulator launch
 
 Full guide: [LAUNCH.md](./LAUNCH.md)
 
-One command:
+### Windows — Android (Pixel_9)
 
 ```powershell
 npm run launch:android
 ```
 
-Or:
+### macOS — iOS Simulator
 
-```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\launch-android.ps1
+```bash
+npm run launch:ios
+# or
+bash ./scripts/launch-ios.sh
+```
+
+Optional:
+
+```bash
+IOS_SIMULATOR="iPhone 16 Pro" npm run launch:ios
 ```
 
 Demo login: `U` / `P` (or register a new user on the Login screen).
@@ -163,6 +171,8 @@ You can also open the native projects in Android Studio or Xcode and run from th
 | `npm start` | Start the Metro bundler |
 | `npm run android` | Build and launch on Android |
 | `npm run ios` | Build and launch on iOS |
+| `npm run launch:android` | Windows: Pixel_9 emulator + Metro + install |
+| `npm run launch:ios` | macOS: iOS Simulator + pods + Metro + install |
 | `npm test` | Run Jest tests |
 | `npm run lint` | Run ESLint |
 

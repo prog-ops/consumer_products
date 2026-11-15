@@ -1,6 +1,74 @@
-# Emulator Launch Guide
+# Emulator / Simulator Launch Guide
 
-Quick guide to run this app on the **Pixel_9** Android emulator.
+- **Windows** → Android Pixel_9 emulator (`launch:android`)
+- **macOS** → iOS Simulator (`launch:ios`)
+
+---
+
+## macOS — iOS Simulator (recommended)
+
+From the project root:
+
+```bash
+npm run launch:ios
+# or
+bash ./scripts/launch-ios.sh
+```
+
+This script will:
+
+1. Require macOS + Xcode CLI (`xcrun`, `xcodebuild`) + CocoaPods (`pod`)
+2. Generate `ios/` from the RN `0.88.1` template if it is missing
+3. Run `pod install`
+4. Boot the iOS Simulator (default: `iPhone 16`)
+5. Start Metro with `--reset-cache` on port `8081`
+6. Build/install/run the app (`react-native run-ios --no-packager`)
+
+### Optional env
+
+```bash
+export IOS_SIMULATOR="iPhone 16 Pro"
+export IOS_BUNDLE_ID="org.reactjs.native.example.pnpx_rn"
+export METRO_PORT=8081
+npm run launch:ios
+```
+
+List available simulators:
+
+```bash
+xcrun simctl list devices available
+```
+
+### Prerequisites (macOS)
+
+- Xcode (App Store) + Command Line Tools: `xcode-select --install`
+- CocoaPods: `sudo gem install cocoapods` (or Homebrew `brew install cocoapods`)
+- Node.js `>= 22.11.0`
+- Watchman (recommended): `brew install watchman`
+
+### Common macOS issues
+
+| Problem | Fix |
+|---------|-----|
+| `ios/` missing | Script auto-generates it; or create manually with RN CLI template |
+| Pod install fails | `cd ios && pod repo update && pod install` |
+| Wrong simulator | `IOS_SIMULATOR="iPhone 15" npm run launch:ios` |
+| Metro cache stale | Script already uses `--reset-cache` |
+| Build signing / workspace | Open `ios/pnpx_rn.xcworkspace` in Xcode once |
+
+### Manual macOS launch
+
+```bash
+npm install
+cd ios && pod install && cd ..
+npm start -- --reset-cache
+# new terminal
+npx react-native run-ios --simulator "iPhone 16"
+```
+
+---
+
+## Windows — Android Pixel_9
 
 ## One-command launch (recommended)
 
